@@ -1,18 +1,10 @@
 {
   "dependencies": {
-    "com.etliaojing.strangeioc": {
-      "version": "https://github.com/etliaojing/strangeioc-enhacned-package.git#v1.0.1",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "6882279208371582cd7e039c2caaad563f133713"
-    },
     "com.etliaojing.supereasyvisualpack": {
       "version": "file:com.etliaojing.supereasyvisualpack",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.etliaojing.strangeioc": "1.0.1",
         "com.unity.ugui": "2.0.0"
       }
     },
