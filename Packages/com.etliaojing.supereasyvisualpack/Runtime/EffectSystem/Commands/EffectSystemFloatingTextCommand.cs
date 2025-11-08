@@ -15,7 +15,8 @@ namespace SuperEasy.EffectSystem.Commands
 	{
 		public Sprite Icon;
 		public int Delta;
-		public Vector3 WorldPosition;
+		public Vector3 Position;
+		public bool IsLocalPosition;
 	}
 	
 	public class EffectSystemFloatingTextCommand : EventCommand

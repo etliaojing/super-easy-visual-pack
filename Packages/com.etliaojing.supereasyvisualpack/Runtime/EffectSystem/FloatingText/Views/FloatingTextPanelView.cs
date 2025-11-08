@@ -23,26 +23,33 @@ namespace SuperEasy.EffectSystem.FloatingText.Views
 		{
 			foreach (var request in requests)
 			{
-				NewFloatingText(request.Delta, request.Icon, request.WorldPosition);
+				NewFloatingText(request);
 				yield return new WaitForSeconds(0.3f);
 			}
 		}
 
-		private void NewFloatingText(int delta, Sprite icon, Vector3 worldPos)
+		private void NewFloatingText(FloatingTextRequest request)
 		{
 			var floatingText = _floatingTextPool.Get();
 
 			switch (floatingText)
 			{
 				case FloatingIconTextView iconTextView:
-					iconTextView.SetUp(icon, delta);
+					iconTextView.SetUp(request.Icon, request.Delta);
 					break;
 				case FloatingTextView _textView:
-					_textView.SetUp(delta);
+					_textView.SetUp(request.Delta);
 					break;
 			}
-			
-			floatingText.transform.position = worldPos;
+
+			if (request.IsLocalPosition)
+			{
+				floatingText.transform.localPosition = request.Position;
+			}
+			else
+			{
+				floatingText.transform.position = request.Position;
+			}
 			floatingText.Pop(() => { _floatingTextPool.Release(floatingText); });
 		}
 		
