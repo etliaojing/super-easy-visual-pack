@@ -21,9 +21,9 @@ namespace EffectSystem.Core
 			return panel;
 		}
 
-		public static bool UnregisterEffectPanel<T>(T panel) where T : SuperEasyEffectPanelView
+		public static bool UnregisterEffectPanel(object key)
 		{
-			return _panelDictionary.Remove(panel);
+			return _panelDictionary.Remove(key);
 		}
 
 		public static void ShowFloatingText(object targetPanelKey, List<DisplayFloatingTextEvent> events)
