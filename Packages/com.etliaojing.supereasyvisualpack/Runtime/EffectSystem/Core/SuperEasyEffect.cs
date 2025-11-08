@@ -8,27 +8,27 @@ namespace EffectSystem.Core
 {
 	public static class SuperEasyEffect
 	{
-		private static Dictionary<object, SuperEasyEffectPanelView> _panelDictionary;
+		private static readonly Dictionary<object, SuperEasyEffectPanelView> PanelDictionary = new();
 
 		public static SuperEasyEffectPanelView RegisterEffectPanel(object key, SuperEasyEffectPanelView panel)
 		{
-			if (_panelDictionary.TryGetValue(key, out var value))
+			if (PanelDictionary.TryGetValue(key, out var value))
 			{
 				return value;
 			}
 
-			_panelDictionary.Add(key, panel);
+			PanelDictionary.Add(key, panel);
 			return panel;
 		}
 
 		public static bool UnregisterEffectPanel(object key)
 		{
-			return _panelDictionary.Remove(key);
+			return PanelDictionary.Remove(key);
 		}
 
 		public static void ShowFloatingText(object targetPanelKey, List<DisplayFloatingTextEvent> events)
 		{
-			if (!_panelDictionary.TryGetValue(targetPanelKey, out var panel))
+			if (!PanelDictionary.TryGetValue(targetPanelKey, out var panel))
 			{
 				Debug.LogWarning($"[{targetPanelKey}] does not exist, have you registered it?");
 			}
