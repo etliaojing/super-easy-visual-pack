@@ -1,12 +1,11 @@
 using System;
 using System.Collections;
-using strange.extensions.mediation.impl;
 using SuperEasy.AnimationSystem.Constants;
 using UnityEngine;
 
 namespace SuperEasy.EffectSystem.FloatingText.Views
 {
-	public class FloatingBaseView : View
+	public class FloatingBaseView : MonoBehaviour
 	{
 		[SerializeField] private Animator _animator;
 		
@@ -26,9 +25,8 @@ namespace SuperEasy.EffectSystem.FloatingText.Views
 		{
 		}
 
-		protected override void OnDestroy()
+		private void OnDestroy()
 		{
-			base.OnDestroy();
 			CleanUp();
 		}
 	}

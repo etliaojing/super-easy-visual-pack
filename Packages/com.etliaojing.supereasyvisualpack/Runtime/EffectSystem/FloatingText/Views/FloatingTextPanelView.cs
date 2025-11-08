@@ -1,61 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
-using strange.extensions.mediation.impl;
-using SuperEasy.EffectSystem.Commands;
+using EffectSystem.Core.Views;
+using EffectSystem.FloatingText.Events;
 using UnityEngine;
 using UnityEngine.Pool;
 
 namespace SuperEasy.EffectSystem.FloatingText.Views
 {
-	public class FloatingTextPanelView : View
+	public class FloatingTextPanelView : SuperEasyEffectPanelView
 	{
 		[SerializeField] private RectTransform _vfxContainer;
 		[SerializeField] private FloatingBaseView _floatingTextTemplate;
 		
 		private IObjectPool<FloatingBaseView> _floatingTextPool;
 		
-		public void DisplayFloatingText(List<FloatingTextRequest> requests)
+		public void DisplayFloatingText(List<DisplayFloatingTextEvent> events)
 		{
-			StartCoroutine(CoDisplay(requests));
+			StartCoroutine(CoDisplay(events));
 		}
 
-		private IEnumerator CoDisplay(List<FloatingTextRequest> requests)
+		private IEnumerator CoDisplay(List<DisplayFloatingTextEvent> events)
 		{
-			foreach (var request in requests)
+			foreach (var e in events)
 			{
-				NewFloatingText(request);
+				NewFloatingText(e);
 				yield return new WaitForSeconds(0.3f);
 			}
 		}
 
-		private void NewFloatingText(FloatingTextRequest request)
+		private void NewFloatingText(DisplayFloatingTextEvent e)
 		{
 			var floatingText = _floatingTextPool.Get();
 
 			switch (floatingText)
 			{
 				case FloatingIconTextView iconTextView:
-					iconTextView.SetUp(request.Icon, request.Delta);
+					iconTextView.SetUp(e.Icon, e.Delta);
 					break;
 				case FloatingTextView _textView:
-					_textView.SetUp(request.Delta);
+					_textView.SetUp(e.Delta);
 					break;
 			}
 
-			if (request.IsLocalPosition)
+			if (e.IsLocalPosition)
 			{
-				floatingText.transform.localPosition = request.Position;
+				floatingText.transform.localPosition = e.Position;
 			}
 			else
 			{
-				floatingText.transform.position = request.Position;
+				floatingText.transform.position = e.Position;
 			}
 			floatingText.Pop(() => { _floatingTextPool.Release(floatingText); });
 		}
 		
-		protected override void Awake()
+		private void Awake()
 		{
-			base.Awake();
 			Initialise();
 		}
 
