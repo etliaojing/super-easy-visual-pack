@@ -10,9 +10,9 @@ namespace SuperEasy.EffectSystem.FloatingText.Views
 	public class FloatingTextPanelView : View
 	{
 		[SerializeField] private RectTransform _vfxContainer;
-		[SerializeField] private FloatingTextView _floatingTextTemplate;
+		[SerializeField] private FloatingBaseView _floatingTextTemplate;
 		
-		private IObjectPool<FloatingTextView> _floatingTextPool;
+		private IObjectPool<FloatingBaseView> _floatingTextPool;
 		
 		public void DisplayFloatingText(List<FloatingTextRequest> requests)
 		{
@@ -31,8 +31,17 @@ namespace SuperEasy.EffectSystem.FloatingText.Views
 		private void NewFloatingText(int delta, Sprite icon, Vector3 worldPos)
 		{
 			var floatingText = _floatingTextPool.Get();
+
+			switch (floatingText)
+			{
+				case FloatingIconTextView iconTextView:
+					iconTextView.SetUp(icon, delta);
+					break;
+				case FloatingTextView _textView:
+					_textView.SetUp(delta);
+					break;
+			}
 			
-			floatingText.SetUp(icon, delta);
 			floatingText.transform.position = worldPos;
 			floatingText.Pop(() => { _floatingTextPool.Release(floatingText); });
 		}
@@ -45,7 +54,7 @@ namespace SuperEasy.EffectSystem.FloatingText.Views
 
 		private void Initialise()
 		{
-			_floatingTextPool = new ObjectPool<FloatingTextView>(
+			_floatingTextPool = new ObjectPool<FloatingBaseView>(
 				OnCreateFloatingTextPool,
 				OnTakeFloatingTextPool,
 				OnReturnFloatingTextPool,
@@ -53,24 +62,24 @@ namespace SuperEasy.EffectSystem.FloatingText.Views
 				true, 5, 10);
 		}
 
-		private void OnDestroyFloatingTextPool(FloatingTextView obj)
+		private void OnDestroyFloatingTextPool(FloatingBaseView obj)
 		{
 			Destroy(obj.gameObject);
 		}
 
-		private void OnReturnFloatingTextPool(FloatingTextView obj)
+		private void OnReturnFloatingTextPool(FloatingBaseView obj)
 		{
 			obj.CleanUp();
 			obj.gameObject.SetActive(false);
 		}
 
-		private void OnTakeFloatingTextPool(FloatingTextView obj)
+		private void OnTakeFloatingTextPool(FloatingBaseView obj)
 		{
 			obj.transform.SetAsLastSibling();
 			obj.gameObject.SetActive(true);
 		}
 
-		private FloatingTextView OnCreateFloatingTextPool()
+		private FloatingBaseView OnCreateFloatingTextPool()
 		{
 			var instance = Instantiate(_floatingTextTemplate, _vfxContainer);
 			return instance;

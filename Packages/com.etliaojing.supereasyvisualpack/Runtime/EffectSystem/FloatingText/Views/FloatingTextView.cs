@@ -7,7 +7,7 @@ namespace SuperEasy.EffectSystem.FloatingText.Views
 	{
 		[SerializeField] private TextMeshProUGUI _delta;
 
-		public void SetUp(Sprite sprite, int delta)
+		public void SetUp(int delta)
 		{
 			if (delta == 0)
 			{
@@ -15,7 +15,6 @@ namespace SuperEasy.EffectSystem.FloatingText.Views
 				return;
 			}
 			
-			_icon.sprite = sprite;
 			_delta.text = delta > 0 ? $"+{delta:N0}" : $"{delta:N0}";
 		}
 	}

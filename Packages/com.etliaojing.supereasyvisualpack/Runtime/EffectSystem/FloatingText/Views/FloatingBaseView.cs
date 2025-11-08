@@ -3,14 +3,12 @@ using System.Collections;
 using strange.extensions.mediation.impl;
 using SuperEasy.AnimationSystem.Constants;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace SuperEasy.EffectSystem.FloatingText.Views
 {
 	public class FloatingBaseView : View
 	{
 		[SerializeField] private Animator _animator;
-		[SerializeField] protected Image _icon;
 		
 		public void Pop(Action onComplete)
 		{
@@ -24,9 +22,8 @@ namespace SuperEasy.EffectSystem.FloatingText.Views
 			onComplete?.Invoke();
 		}
 
-		public void CleanUp()
+		public virtual void CleanUp()
 		{
-			_icon.sprite = null;
 		}
 
 		protected override void OnDestroy()
