@@ -1,0 +1,23 @@
+{
+  "name": "com.etliaojing.supereasyvisualpack",
+  "version": "0.0.1",
+  "displayName": "Super Easy Visual Pack",
+  "description": "Handy visual systems for easily creating new games",
+  "unity": "6000.0",
+  "documentationUrl": "https://example.com/",
+  "dependencies": {
+    "com.etliaojing.strangeioc": "1.0.1",
+    "com.unity.ugui": "2.0.0"
+  },
+  "keywords": [
+    "etliaojing",
+    "visual",
+    "systems",
+    "handy"
+  ],
+  "author": {
+    "name": "Jing Liao",
+    "email": "liaojing.cmsa@gmail.com",
+    "url": "https://www.unity3d.com"
+  }
+}
