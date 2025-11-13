@@ -2,7 +2,6 @@
     "name": "Etliaojing.SuperEasy.EffectSystem",
     "rootNamespace": "",
     "references": [
-        "GUID:55f656e2dedc4411cb171dcecc45268f",
         "GUID:bdc8261ed1e24745b09b62b524d8f358",
         "GUID:6055be8ebefd69e48b49212b09b47b2f"
     ],
