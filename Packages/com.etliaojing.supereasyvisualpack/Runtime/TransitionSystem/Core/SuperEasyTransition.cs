@@ -43,7 +43,7 @@ namespace SuperEasy.TransitionSystem.Core
 			view.StartTransitionIn();
 		}
 
-		public static void TransitionOut(object key)
+		public static void TransitionOut(object key, bool isForce = false)
 		{
 			if (!KeyViewMapping.TryGetValue(key, out var view))
 			{
@@ -51,7 +51,7 @@ namespace SuperEasy.TransitionSystem.Core
 				return;
 			}
 
-			if (!view.HasTransitionedIn)
+			if (!isForce && !view.HasTransitionedIn)
 			{
 				Debug.LogError("Requested transition view is not transitioned in");
 				return;

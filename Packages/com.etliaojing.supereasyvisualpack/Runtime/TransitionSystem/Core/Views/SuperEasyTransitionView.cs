@@ -6,8 +6,8 @@ namespace SuperEasy.TransitionSystem.Core.Views
 	public abstract class SuperEasyTransitionView : MonoBehaviour
 	{
 		internal bool HasTransitionedIn;
-		internal Action OnTransitionInComplete;
-		internal Action OnTransitionOutComplete;
+		public event Action OnTransitionInComplete;
+		public event Action OnTransitionOutComplete;
 		internal void StartTransitionIn()
 		{
 			TransitionIn();
