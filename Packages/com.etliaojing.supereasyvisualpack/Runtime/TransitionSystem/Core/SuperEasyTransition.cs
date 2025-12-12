@@ -38,6 +38,7 @@ namespace SuperEasy.TransitionSystem.Core
 
 			view.OnTransitionInComplete += () =>
 			{
+				evt.OnTransitionInComplete?.Invoke();
 				OperateScenesAsync(view, evt);
 			};
 			view.StartTransitionIn();
