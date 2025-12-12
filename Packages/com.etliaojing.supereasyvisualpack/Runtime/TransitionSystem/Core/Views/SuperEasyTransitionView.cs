@@ -23,6 +23,7 @@ namespace SuperEasy.TransitionSystem.Core.Views
 		{
 			HasTransitionedIn = true;
 			OnTransitionInComplete?.Invoke();
+			OnTransitionInComplete = null;
 		}
 		protected abstract void TransitionOut();
 
@@ -30,6 +31,7 @@ namespace SuperEasy.TransitionSystem.Core.Views
 		{
 			HasTransitionedIn = false;
 			OnTransitionOutComplete?.Invoke();
+			OnTransitionOutComplete = null;
 		}
 	}
 }
