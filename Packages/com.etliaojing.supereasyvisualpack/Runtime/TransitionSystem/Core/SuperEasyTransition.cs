@@ -28,6 +28,7 @@ namespace SuperEasy.TransitionSystem.Core
 			return KeyViewMapping.Remove(key);
 		}
 
+		[Obsolete("Use TransitionIn instead")]
 		public static void StartTransition(SuperEasyTransitionEvent evt)
 		{
 			if (!KeyViewMapping.TryGetValue(evt.TransitionViewKey, out var view))
@@ -39,41 +40,65 @@ namespace SuperEasy.TransitionSystem.Core
 			view.OnTransitionInComplete += () =>
 			{
 				evt.OnTransitionInComplete?.Invoke();
-				OperateScenesAsync(view, evt);
+				OperateScenesAsync(view, evt.ScenesToUnload, evt.ScenesToLoad, evt.AutoTransitionOut);
 			};
 			view.StartTransitionIn();
 		}
 
-		public static void TransitionOut(object key, bool isForce = false)
+		public static void TransitionIn(SuperEasyTransitionInEvent evt)
+		{
+			if (!KeyViewMapping.TryGetValue(evt.Key, out var view))
+			{
+				Debug.LogError($"Transition key [{evt.Key}] not found. Have you registered before calling?");
+				return;
+			}
+
+			view.OnTransitionInComplete += evt.OnTransitionInComplete;
+			view.OnTransitionInComplete += () =>
+			{
+				OperateScenesAsync(view, evt.ScenesToUnload, evt.ScenesToLoad);
+			};
+			view.StartTransitionIn();
+		}
+
+		[Obsolete("Use TransitionOut(evt) instead")]
+		public static void TransitionOut(object key)
 		{
 			if (!KeyViewMapping.TryGetValue(key, out var view))
 			{
 				Debug.LogError($"Transition key {key} not found. Have you registered before calling?");
 				return;
 			}
-
-			if (!isForce && !view.HasTransitionedIn)
-			{
-				Debug.LogError("Requested transition view is not transitioned in");
-				return;
-			}
 			
 			view.StartTransitionOut();
 		}
-
-		private static async void OperateScenesAsync(SuperEasyTransitionView view, SuperEasyTransitionEvent evt)
+		
+		public static void TransitionOut(SuperEasyTransitionOutEvent evt)
 		{
-			if (evt.ScenesToUnload is { Count: > 0 })
+			if (!KeyViewMapping.TryGetValue(evt.Key, out var view))
 			{
-				await UnloadScenes(evt.ScenesToUnload);
-			}
-			
-			if (evt.ScenesToLoad is { Count: > 0 })
-			{
-				await LoadScenesAdditive(evt.ScenesToLoad);
+				Debug.LogError($"Transition key [{evt.Key}] not found. Have you registered before calling?");
+				return;
 			}
 
-			if (evt.AutoTransitionOut)
+			view.OnTransitionOutComplete += evt.OnTransitionOutComplete;
+			view.StartTransitionOut();
+		}
+
+		private static async void OperateScenesAsync(SuperEasyTransitionView view, List<string> scenesToUnload,
+			List<string> scenesToLoad, bool autoTransitionOut = false)
+		{
+			if (scenesToUnload is { Count: > 0 })
+			{
+				await UnloadScenes(scenesToUnload);
+			}
+
+			if (scenesToLoad is { Count: > 0 })
+			{
+				await LoadScenesAdditive(scenesToLoad);
+			}
+
+			if (autoTransitionOut)
 			{
 				view.StartTransitionOut();
 			}
