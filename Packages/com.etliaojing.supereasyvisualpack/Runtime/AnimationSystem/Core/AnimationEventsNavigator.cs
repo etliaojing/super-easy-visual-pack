@@ -10,6 +10,8 @@ namespace SuperEasy.AnimationSystem.Core
 	{
 		public UnityEvent OnShowStartEvent;
 		public UnityEvent OnShowCompleteEvent;
+		public UnityEvent OnHideStartEvent;
+		public UnityEvent OnHideCompleteEvent;
 
 		public void RegisterEventCallback(AnimationEventTypeEnum type, AnimationEventCallback callback)
 		{
@@ -20,6 +22,12 @@ namespace SuperEasy.AnimationSystem.Core
 					break;
 				case AnimationEventTypeEnum.OnShowComplete:
 					OnShowCompleteEvent.AddListener(() => callback());
+					break;
+				case AnimationEventTypeEnum.OnHideStart:
+					OnHideStartEvent.AddListener(() => callback());
+					break;
+				case AnimationEventTypeEnum.OnHideComplete:
+					OnHideCompleteEvent.AddListener(() => callback());
 					break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(type), type, null);
@@ -34,6 +42,16 @@ namespace SuperEasy.AnimationSystem.Core
 		public void OnShowComplete()
 		{
 			OnShowCompleteEvent?.Invoke();
+		}
+
+		public void OnHideStart()
+		{
+			OnHideStartEvent?.Invoke();
+		}
+
+		public void OnHideComplete()
+		{
+			OnHideCompleteEvent?.Invoke();
 		}
 	}
 }

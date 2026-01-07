@@ -4,5 +4,7 @@ namespace SuperEasy.AnimationSystem.Core
 	{
 		OnShowStart,
 		OnShowComplete,
+		OnHideStart,
+		OnHideComplete,
 	}
 }
