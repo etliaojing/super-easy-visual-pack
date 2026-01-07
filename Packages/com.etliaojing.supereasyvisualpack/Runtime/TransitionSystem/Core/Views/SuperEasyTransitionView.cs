@@ -5,7 +5,6 @@ namespace SuperEasy.TransitionSystem.Core.Views
 {
 	public abstract class SuperEasyTransitionView : MonoBehaviour
 	{
-		internal bool HasTransitionedIn;
 		public event Action OnTransitionInComplete;
 		public event Action OnTransitionOutComplete;
 		internal void StartTransitionIn()
@@ -21,7 +20,6 @@ namespace SuperEasy.TransitionSystem.Core.Views
 
 		protected void CompleteTransitionIn()
 		{
-			HasTransitionedIn = true;
 			OnTransitionInComplete?.Invoke();
 			OnTransitionInComplete = null;
 		}
@@ -29,7 +27,6 @@ namespace SuperEasy.TransitionSystem.Core.Views
 
 		protected void CompleteTransitionOut()
 		{
-			HasTransitionedIn = false;
 			OnTransitionOutComplete?.Invoke();
 			OnTransitionOutComplete = null;
 		}
