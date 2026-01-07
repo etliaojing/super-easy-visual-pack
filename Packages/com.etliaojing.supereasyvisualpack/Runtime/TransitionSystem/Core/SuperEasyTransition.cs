@@ -53,7 +53,11 @@ namespace SuperEasy.TransitionSystem.Core
 				return;
 			}
 
-			view.OnTransitionInComplete += evt.OnTransitionInComplete;
+			if (evt.OnTransitionInComplete != null)
+			{
+				view.OnTransitionInComplete += evt.OnTransitionInComplete;
+			}
+			
 			view.OnTransitionInComplete += () =>
 			{
 				OperateScenesAsync(view, evt.ScenesToUnload, evt.ScenesToLoad);
@@ -81,7 +85,10 @@ namespace SuperEasy.TransitionSystem.Core
 				return;
 			}
 
-			view.OnTransitionOutComplete += evt.OnTransitionOutComplete;
+			if (evt.OnTransitionOutComplete != null)
+			{
+				view.OnTransitionOutComplete += evt.OnTransitionOutComplete;
+			}
 			view.StartTransitionOut();
 		}
 
