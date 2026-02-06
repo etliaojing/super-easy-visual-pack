@@ -9,7 +9,6 @@ namespace SuperEasy.EffectSystem.FloatingText.Views
 {
 	public class FloatingTextPanelView : SuperEasyEffectPanelView
 	{
-		[SerializeField] private RectTransform _vfxContainer;
 		[SerializeField] private FloatingBaseView _floatingTextTemplate;
 		
 		private IObjectPool<FloatingBaseView> _floatingTextPool;

@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
+using EffectSystem.Core.Views;
 using SuperEasy.AnimationSystem.Constants;
 using UnityEngine;
 
 namespace SuperEasy.EffectSystem.FloatingText.Views
 {
-	public class FloatingBaseView : MonoBehaviour
+	public class FloatingBaseView : SuperEasyEffectView
 	{
 		[SerializeField] private Animator _animator;
 		
@@ -19,10 +20,6 @@ namespace SuperEasy.EffectSystem.FloatingText.Views
 		{
 			yield return new WaitForSeconds(1f);
 			onComplete?.Invoke();
-		}
-
-		public virtual void CleanUp()
-		{
 		}
 
 		private void OnDestroy()
