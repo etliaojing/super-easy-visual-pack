@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using EffectSystem.Core.Events;
 using EffectSystem.Core.Views;
 using EffectSystem.FloatingText.Events;
 using SuperEasy.EffectSystem.FloatingText.Views;
@@ -24,6 +25,16 @@ namespace EffectSystem.Core
 		public static bool UnregisterEffectPanel(object key)
 		{
 			return PanelDictionary.Remove(key);
+		}
+
+		public static void ShowVFX(object targetPanelKey, List<SuperEasyEffectEvent> events)
+		{
+			if (!PanelDictionary.TryGetValue(targetPanelKey, out var panel))
+			{
+				Debug.LogWarning($"[{targetPanelKey}] does not exist, have you registered it?");
+			}
+
+			panel.Display(events);
 		}
 
 		public static void ShowFloatingText(object targetPanelKey, List<DisplayFloatingTextEvent> events)
